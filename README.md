@@ -31,3 +31,15 @@ created a User Model to define how user data is structured in the database also 
 
 # Milestone 5 (Frontend - Signup page) :
 developed the frontend signup page using React. The page includes a form for users to register, with input validation for fields like email and password. integrated the page with the backend API to handle user registration and implemented error handling to ensure a smooth user experience.
+
+# Milestone 6 :
+In this milestone, we implemented secure user authentication using JSON Web Tokens (JWT). This ensures that users can securely register, log in, and maintain authentication across sessions.
+
+Key Updates:
+ JWT-Based Authentication: Users receive a signed token upon login or signup.
+ Protected Routes: Implemented middleware to restrict access to authorized users only.
+ Password Hashing: Used bcrypt.js to securely hash passwords before storing them.
+ User Login & Logout: Developed API endpoints for user login and logout functionality.
+ Persistent Authentication: Implemented token storage for maintaining user sessions.
+
+With this milestone, we have laid the foundation for secure user access and protected API endpoints, ensuring a robust authentication system.
