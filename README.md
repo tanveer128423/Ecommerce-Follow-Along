@@ -64,3 +64,11 @@ Key Updates:
 - Styled the homepage using a grid/flexbox layout for better organization.  
 
 With this milestone, the homepage now showcases products in a clean and visually appealing manner.  
+
+## Milestone 9: Frontend - Product Input Form
+
+- Created a product input form to collect product details.
+- Implemented functionality to upload multiple product images.
+- Ensured form validation for required fields.
+- Designed a user-friendly UI for product entry.
+- Prepared for future enhancements like admin access and shop profile integration.
