@@ -72,3 +72,11 @@ With this milestone, the homepage now showcases products in a clean and visually
 - Ensured form validation for required fields.
 - Designed a user-friendly UI for product entry.
 - Prepared for future enhancements like admin access and shop profile integration.
+
+## Milestone 10: Backend - Product Schema & API Endpoint
+
+- Created a Mongoose schema for products, defining fields such as name, description, price, and image URL.
+- Implemented validation to ensure proper data integrity.
+- Built a POST endpoint to receive and store product details in MongoDB.
+- Ensured validation before saving product data to prevent errors.
+- Prepared for future enhancements such as admin-only access and shop profiles.
