@@ -43,3 +43,14 @@ Key Updates:
  Persistent Authentication: Implemented token storage for maintaining user sessions.
 
 With this milestone, we have laid the foundation for secure user access and protected API endpoints, ensuring a robust authentication system.
+
+## Milestone 7 (Backend - User Login Authentication)  
+Implemented user login functionality with secure password validation using bcrypt.  
+
+ Key Updates:  
+- Created a login API endpoint to authenticate users.  
+- Retrieved user data from the database based on email/username.  
+- Used bcrypt to compare entered passwords with stored hashed passwords.  
+- Implemented error handling for invalid credentials.  
+
+With this milestone, users can securely log in to the application, ensuring safe authentication.  
