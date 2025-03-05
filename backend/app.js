@@ -1,45 +1,37 @@
-const express = require("express");
+const express = require('express');
+const ErrorHandler = require("./middleware/error");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const cors = require("cors");
 
 const app = express();
 
-const ErrorHandler = require("./middleware/error");
+// Config
+if (process.env.NODE_ENV !== 'PRODUCTION') {
+    dotenv.config({ path: "backend/config/.env" });
+}
 
-const cookieParser = require("cookie-parser");
-
-// const bodyParser = require("body-parser");
-
-const cors=require('cors')
 app.use(express.json());
-
-app.use(express.urlencoded({extended:true}))
-
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use(cors({
+    origin: "http://localhost:5174",
+    credentials: true,
+}));
 
-app.use("/",express.static("uploads"));
+// Serve static files
+app.use("/", express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
-// app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+// Import Routes
+const user = require("./controller/userRouter");
+app.use("/user", user);
 
-app.use(cors())
+const productRoutes = require("./controller/productRouter");
+app.use("/products", productRoutes);
 
-// config
-
-if (process.env.NODE_ENV !== "PRODUCTION") {
-
-require("dotenv").config({
-
-path: "backend/config/.env",
-
-});
-};
-
-//import Routes
-
-const user = require("./controller/user");
-
-app.use("/api/v2/user", user);
-
-// it's for ErrorHandling
-
+// Error Handling Middleware
 app.use(ErrorHandler);
 
 module.exports = app;
