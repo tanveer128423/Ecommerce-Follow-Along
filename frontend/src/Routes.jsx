@@ -1,5 +1,6 @@
-import LoginPage from './pages/Login'
-import SignupPage from './pages/Signup'
-import Home from "./pages/Home.jsx";
-import CreateProduct from './pages/createProduct.jsx';
-export {LoginPage,SignupPage,Home,CreateProduct};
+import LoginPage from './Pages/Login';
+import SignupPage from './Pages/SignUpPage';
+import Homepage from './Pages/Home';
+import ProductForm from './components/ProductForm'
+import EditProduct from './components/EditProduct'
+export {LoginPage,SignupPage, Homepage, ProductForm, EditProduct};
