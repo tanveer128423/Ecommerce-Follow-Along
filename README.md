@@ -80,3 +80,27 @@ With this milestone, the homepage now showcases products in a clean and visually
 - Built a POST endpoint to receive and store product details in MongoDB.
 - Ensured validation before saving product data to prevent errors.
 - Prepared for future enhancements such as admin-only access and shop profiles.
+
+## Milestone 11: Displaying All Products from Database
+In this milestone, we focused on enabling data exchange between the backend and frontend, ensuring product information is dynamically displayed using React components.
+
+Key Tasks:
+- Created an API endpoint to send product data.
+- Retrieved product data on the frontend.
+- Dynamically displayed product information using React components.
+- Milestone 12: My Products Page
+- In this milestone, we developed a "My Products" page that displays only the products added by the logged-in user, filtered by their email.
+
+Features:
+Backend: Added an endpoint to fetch products by user email.
+Frontend: Implemented a function to retrieve and display user-specific products dynamically.
+Component: Used the Card component to present each product in a structured layout.
+## Milestone 13: Edit Product Functionality
+Learning Goals:
+Created an API endpoint to update existing product data in MongoDB.
+Implemented an edit form with pre-filled data for easy modifications.
+## Milestone 14: Delete Product Functionality
+Learning Goals:
+Developed an API endpoint to remove a product from the database.
+Ensured products get deleted from both the backend and frontend dynamically.
+
