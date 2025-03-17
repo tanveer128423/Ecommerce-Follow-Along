@@ -1,6 +1,6 @@
 import Signin from '../components/auth/Login'
 
-function LoginPage() {
+function Login() {
   return (
     <div>
       <Signin/>
@@ -8,4 +8,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage;
+export default Login;

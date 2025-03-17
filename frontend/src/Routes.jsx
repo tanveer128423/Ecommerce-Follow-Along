@@ -1,6 +1,7 @@
 import LoginPage from './Pages/Login';
-import SignupPage from './Pages/SignUpPage';
-import Homepage from './Pages/Home';
+import SignupPage from './pages/Signup';
+import Homepage from './Pages/Homepage';
 import ProductForm from './components/ProductForm'
 import EditProduct from './components/EditProduct'
-export {LoginPage,SignupPage, Homepage, ProductForm, EditProduct};
+import ProductDetails from './components/auth/ProductDetails';
+export {LoginPage,SignupPage,ProductDetails, Homepage, ProductForm, EditProduct};
