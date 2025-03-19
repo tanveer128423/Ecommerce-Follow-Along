@@ -111,3 +111,12 @@ A Product Detail Page has been added providing in-depth information about each p
 
 ## Milestone 17 Cart Functionality in Node.js and MongoDB
 This milestone adds cart functionality allowing users to create a cart add products retrieve cart details and remove products from their cart.
+
+## Milestone 18: Fetch Cart Items by Email
+Added a backend API to retrieve cart products using the user's email, returning detailed product information for display.
+
+## Milestone 19: Cart System Implementation
+Developed a dynamic cart page with frontend and backend functionality. Users can view products, adjust quantities with + and - buttons, and backend endpoints manage updates efficiently.
+
+## Milestone 20: Profile Page & User Data API
+Created a profile page displaying user details (photo, name, email, address) with an option to add addresses. A backend API fetches and manages user data, ensuring a responsive and user-friendly experience.
