@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 const Home = () => {
   return (
-    <div className="flex flex-col gap-10 bg-red-700">
+    <div className="flex flex-col gap-10 bg-gray-700">
       <div>
         <Navbar />
       </div>

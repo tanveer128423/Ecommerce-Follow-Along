@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const fs = require("fs");
 const path = require("path");
-const connectDatabase = require("./db/database");
+const connectDatabase = require("./db/database")
 const ErrorHandler = require("./middleware/error");
 
 const app = express();
@@ -42,11 +42,14 @@ app.use("/uploads", express.static("uploads"));
 // ✅ Import and use routes
 const userRoutes = require("./User/userRouter");
 const productRoutes = require("./Products/productRouter");
-const cartRoutes = require("./cart/cartRouter"); // ✅ Import cart router
+const cartRoutes = require('./cart/cartRouter');
+
+
 
 app.use("/user", userRoutes);
 app.use("/products", productRoutes);
-app.use("/cart", cartRoutes); // ✅ Register cart routes
+app.use('/cart', cartRoutes);
+
 
 // ✅ Error Handling Middleware
 app.use(ErrorHandler);
