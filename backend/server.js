@@ -1,78 +1,37 @@
-const express = require("express");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const dotenv = require("dotenv");
-const fs = require("fs");
-const path = require("path");
-const connectDatabase = require("./db/database")
-const ErrorHandler = require("./middleware/error");
-
+const userrouter = require('./controller/user');
+const express = require('express');
+const cors = require('cors');
+const multer = require('multer');
+const mongoose = require('mongoose'); // Add Mongoose for MongoDB connection
 const app = express();
+const port = 8000;
+const product = require("./controller/product");
+const user = require("./controller/user");
+const path =require('path');
 
-// ✅ Load environment variables
-dotenv.config({ path: "config/.env" });
-
-// ✅ Ensure uploads directory exists
-const uploadPath = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath, { recursive: true });
-    console.log("✅ Created 'uploads/' directory");
-}
-
-// ✅ Middleware
 app.use(express.json());
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use("/api/v2/user", user);
+app.use("/api/v2/product", product);
+app.use('/products',express.static(path.join(__dirname, 'products')));
 
-// ✅ CORS Setup (Include Authorization header)
-const allowedOrigins = ["http://localhost:5173", "http://localhost:3000"];
-app.use(
-    cors({
-        origin: allowedOrigins,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true,
-    })
-);
+// Enable CORS if needed (if frontend and backend are on different ports)
+// Body parsing middleware for form data
+app.use(express.json());  // For JSON data
+app.use(express.urlencoded({ extended: true }));  // For form-encoded data
+app.use(userrouter); // For
+// File upload setup using multer
+const upload = multer({ dest: 'uploads/' });
 
-// ✅ Serve static files
-app.use("/uploads", express.static("uploads"));
-
-// ✅ Import and use routes
-const userRoutes = require("./User/userRouter");
-const productRoutes = require("./Products/productRouter");
-const cartRoutes = require('./cart/cartRouter');
+// Connect to MongoDB
+const mongoURI = 'mongodb+srv://raphdesantos:raph13600@cluster0.hj8ng.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'; // Replace with your MongoDB URI
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("✅Database connection successful"))
+  .catch((err) => console.error("❌Database connection error:", err));
 
 
-
-app.use("/user", userRoutes);
-app.use("/products", productRoutes);
-app.use('/cart', cartRoutes);
-
-
-// ✅ Error Handling Middleware
-app.use(ErrorHandler);
-
-// ✅ Connect to MongoDB database
-connectDatabase();
-
-// ✅ Start server
-const PORT = process.env.PORT || 8000;
-const server = app.listen(PORT, () => {
-    console.log(`✅ Server running on http://localhost:${PORT}`);
-});
-
-// ✅ Handling uncaught exceptions
-process.on("uncaughtException", (err) => {
-    console.error(`Error: ${err.message}`);
-    console.log("Shutting down due to an uncaught exception...");
-    process.exit(1);
-});
-
-// ✅ Handle unhandled promise rejections
-process.on("unhandledRejection", (err) => {
-    console.error(`Unhandled Rejection: ${err.message}`);
-    console.log("Shutting down due to an unhandled promise rejection...");
-    server.close(() => process.exit(1));
+// Start server
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });

@@ -1,105 +1,126 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import profileImage from "../assets/pexels-pashal-337909.jpg";
-import Navbar from '../components/Navbar';
+import {useEffect, useState} from "react";
+import Navbar from "../components/nav.jsx";
+import AddressCard from "../components/addressCard.jsx";
+import { useNavigate } from "react-router-dom";
 
+export default function Profile() {
+    const navigate = useNavigate();
+    const [personalDetails, setPersonalDetails] = useState({
+        name: "",
+        email: "",
+        phoneNumber: "",
+        avatarUrl: "",
+    });
 
-const Profile = () => {
-    const [user, setUser] = useState(null);
-    const [error, setError] = useState("");
+    const [address, setAddress] = useState([]);
 
     useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    setError("No token found. Please log in.");
-                    return;
-                }
-
-                const response = await axios.get('http://localhost:8000/user/profile', {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-
-                setUser(response.data);
-            } catch (err) {
-                setError(err.response?.data?.message || "Failed to load profile.");
+        fetch(`http://localhost:8000/api/v2/user/profile?email=${'dummy@gmail.com'}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
             }
-        };
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('HTTP ERROR');
+                }
+                return res.json();
+            })
+            .then((data) => {
+                setPersonalDetails(data.user);
+                setAddress(data.addresses || []);
+            })
+            .catch((error) => {
+                console.error("Error fetching profile:", error);
+            });
+    }, []); // Added dependency array to prevent infinite loop
 
-        fetchProfile();
-    }, []);
-
-    if (error) {
-        return <div className="text-center text-red-500 mt-4">{error}</div>;
-    }
-
-    if (!user) {
-        return <div className="text-center mt-4">Loading...</div>;
-    }
+    const avatarUrl = personalDetails.avatarUrl
+        ? `http://localhost:8000${personalDetails.avatarUrl}`
+        : 'https://via.placeholder.com/150';
 
     return (
         <>
-            <Navbar hideButtons={true} />
-            <div className="h-screen w-screen flex">
-                {/* Left Section (Logo) */}
-                <div className="hidden md:flex w-3/7 bg-blue-100 items-center justify-center">
-                    <img
-                        src={profileImage}
-                        alt="Profile"
-                        className="w-full h-full object-cover invert"
-                    />
-                </div>
-
-                {/* Right Section (Profile Data) */}
-                <div className="w-full md:w-1/2 flex items-center justify-center bg-white p-12">
-                    <div className="max-w-md w-full">
-
-                        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
-                            <span className='text-red-400'>Welcome </span>
-                            <span className='text-red-900'>{user.name}</span>
-                        </h1>
-
-                        {/* Profile Picture */}
-                        {user.profilePic && (
-                            <div className="flex justify-center mb-6">
+            <Navbar/>
+            <div className="w-full min-h-screen bg-neutral-800 p-5">
+                <div className="w-full h-full bg-neutral-700 rounded-lg">
+                    <div className="w-full h-max my-2 p-5">
+                        <div className="w-full h-max">
+                            <h1 className="text-3xl text-neutral-100">
+                                Personal Details
+                            </h1>
+                        </div>
+                        <div className="w-full h-max flex flex-col sm:flex-row p-5 gap-10">
+                            <div className="w-40 h-max flex flex-col justify-center items-center gap-y-3">
+                                <div className="w-full h-max text-2xl text-neutral-100 text-left">
+                                    PICTURE
+                                </div>
                                 <img
-                                    src={`http://localhost:8000${user.profilePic}`}
-                                    alt="Profile"
-                                    className="w-40 h-40 rounded-full object-cover border-4 border-red-500"
+                                    src={avatarUrl}
+                                    alt="profile"
+                                    className="w-40 h-40 rounded-full object-cover"
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = 'https://via.placeholder.com/150';
+                                    }}
                                 />
                             </div>
-                        )}
-
-                        {/* User Details */}
-                        <div className="space-y-6 text-lg">
-                            <div>
-                                <strong className="text-red-700">Name:</strong>
-                                <span className="ml-2">{user.name}</span>
-                            </div>
-                            <div>
-                                <strong className="text-red-700">Email:</strong>
-                                <span className="ml-2">{user.email}</span>
-                            </div>
-                            <div>
-                                <strong className="text-red-700">Gender:</strong>
-                                <span className="ml-2">
-                                    {user.gender || "Not specified"}
-                                </span>
-                            </div>
-                            <div>
-                                <strong className="text-red-700">Address:</strong>
-                                <span className="ml-2">
-                                    {user.address || "Not provided"}
-                                </span>
+                            <div className="h-max md:flex-grow">
+                                <div className="w-full h-max flex flex-col justify-center items-center gap-y-3">
+                                    <div className="w-full h-max">
+                                        <div className="text-2xl text-neutral-100 text-left">
+                                            NAME
+                                        </div>
+                                        <div className="text-lg font-light text-neutral-100 text-left break-all">
+                                            {personalDetails.name || 'Not provided'}
+                                        </div>
+                                    </div>
+                                    <div className="w-full h-max">
+                                        <div className="text-2xl text-neutral-100 text-left">
+                                            EMAIL
+                                        </div>
+                                        <div className="text-lg font-light text-neutral-100 text-left break-all">
+                                            {personalDetails.email || 'Not provided'}
+                                        </div>
+                                    </div>
+                                    <div className="w-full h-max">
+                                        <div className="text-2xl text-neutral-100 text-left">
+                                            MOBILE
+                                        </div>
+                                        <div className="text-lg font-light text-neutral-100 text-left break-all">
+                                            {personalDetails.phoneNumber || 'Not provided'}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
+                    </div>
+                    <div className="w-full h-max my-2 p-5">
+                        <div className="w-full h-max">
+                            <h1 className="text-3xl text-neutral-100">
+                                Addresses
+                            </h1>
+                        </div>
+                        <div className="w-full h-max p-5">
+                            <button onClick={() => navigate('/create-address')} className="w-max px-3 py-2 bg-neutral-600 text-neutral-100 rounded-md text-center hover:bg-neutral-100 hover:text-black transition-all duration-100">
+                                Add Address
+                            </button>
+                        </div>
+                        <div className="w-full h-max flex flex-col gap-5 p-5">
+                            {address.length === 0 ? (
+                                <div className="w-full h-max text-neutral-100 font-light text-left">
+                                    No Addresses Found
+                                </div>
+                            ) : (
+                                address.map((addr, index) => (
+                                    <AddressCard key={index} {...addr}/>
+                                ))
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
         </>
     );
-};
-
-export default Profile;
+}
