@@ -1,35 +1,43 @@
 const express = require("express");
-
-const app = express();
-const user = require("./controller/user");
+const app = express(); 
+const ErrorHandler = require("./middleware/error");
+const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const errorHandler = require("./middleware/error");
-const product = require("./controller/product");
-const path = require('path');
-app.use(errorHandler);
+const product= require('./controller/product')
+const path=require('path')
+const orders = require('./controller/orders');
 
-// Built-in middleware for parsing JSON
+
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(
+    cors({
+        origin: 'http://localhost:5173', // Allow only your frontend origin
+        credentials: true, // Allow cookies and credentials
+    })
+)
+app.use("/",express.static("uploads"));
 
-// Use CORS middleware
-app.use(cors());
 
 
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+
+// Configuration for environment variables
+if (process.env.NODE_ENV !== "PRODUCTION") {
+    // Load environment variables from the .env file if the environment is not production
+    require("dotenv").config({
+        path: "backend/config/.env",
+    });
+};
+// Serve static files for uploads and products
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/products', express.static(path.join(__dirname, 'products')));
+
+//import Routes
+const user = require("./controller/user");
 app.use("/api/v2/user", user);
 app.use("/api/v2/product", product);
-
-
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({
-    path: "backend/config/.env",
-  });
-}
-
-app.get("/", (_req, res) => {
-  return res.send("Welcome to backend");
-});
-
-module.exports = app;
+app.use("/api/v2/orders", orders);
+app.use(ErrorHandler);
+module.exports= app;

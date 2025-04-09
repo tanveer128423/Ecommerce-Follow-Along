@@ -1,73 +1,62 @@
-import { useState, useEffect } from "react";
-import CartProduct from "../components/cartProducts";
-import Nav from "../components/nav";
-import { useNavigate } from "react-router-dom";
+// Cart.jsx
+import React, { useState, useEffect } from 'react';
+import CartProduct from '../components/auth/CartProduct';
+import NavBar from '../components/auth/nav';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
+import { useSelector } from 'react-redux'; // Import useSelector from react-redux
+import axios from '../axiosConfig';
 
 const Cart = () => {
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate(); // Initialize navigate
+
+  // Get the email from Redux state
+  const email = useSelector((state) => state.user.email);
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v2/product/cartproducts?email=dummy@gmail.com`)
+    // Only fetch if email is available
+    if (!email) return;
+ 
+    axios.get(`/api/v2/product/cartproducts?email=${email}`)
       .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })  
-      .then((data) => {
-        console.log("Cart API response:", data);
-        if (data.cart && Array.isArray(data.cart)) {
-          setProducts(data.cart.map(product => ({
-            quantity: product.quantity,
-            ...product.productId
-          })));
-        } else {
-          setProducts([]); // Ensure it's always an array
-        }
+        setProducts(res.data.cart.map(product => ({quantity: product.quantity,...product.productId, })));
+        console.log("Products fetched:", res.data.cart);
       })
       .catch((err) => {
-        console.error("Error fetching cart products:", err);
-        setError(err.message);
+        console.error("Error fetching products:", err);
       });
-  }, []);
+  }, [email]);
 
-    const handlePlaceOrder = () => {
-      navigate('/select-address');
-    }
+      const handlePlaceOrder = () => {
+        navigate('/select-address'); // Navigate to the Select Address page
+      };
 
-  return (
-    <>
-      <Nav />
-      <div className="w-full h-full flex justify-center items-center">
-        <div className="w-full md:w-4/5 lg:w-4/6 2xl:w-2/3 h-full border-l border-r border-neutral-300 flex flex-col">
-          <div className="w-full md:w-4/5 lg:w-4/6">
-            <h1 className="text-2xl font-semibold text-gray-900 px-4 py-2">CART</h1>
-          </div>
-
-          <div className="w-full flex-grow overflow-auto px-3 py-2 gap-y-2">
-            {error ? (
-              <div className="text-red-500 text-center">{error}</div>
-            ) : products.length > 0 ? (
-              products.map((product) => <CartProduct key={product._id} {...product} />)
-            ) : (
-              <div className="text-gray-500 text-center py-5">Your cart is empty.</div>
-            )}
-          </div>
-
-          <div className='w-full p-4 flex justify-end'>
-              <button
-                    onClick={handlePlaceOrder}
-                    className='bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600'>
-                                  Place Order
-                    </button>
+      return (
+        <div className='w-full h-screen'>
+          <NavBar />
+          <div className='w-full h-full justify-center items-center flex'>
+            <div className='w-full md:w-4/5 lg:w-4/6 2xl:w-2/3 h-full border-l border-r border-neutral-300 flex flex-col'>
+              <div className='w-full h-16 flex items-center justify-center'>
+                <h1 className='text-2xl font-semibold'>Cart</h1>
               </div>
-
-        </div>
-      </div>
-    </>
+              <div className='w-full flex-grow overflow-auto px-3 py-2 gap-y-2'>
+                {products.map(product => (
+                  <CartProduct key={product._id} {...product} />
+                ))}
+              </div>
+              {/* Place Order Button */}
+              <div className='w-full p-4 flex justify-end'>
+                <button
+                  onClick={handlePlaceOrder}
+                  className='bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600'
+                >
+                  Place Order
+                </button>
+              </div>
+            </div>
+            </div>
+    </div>
   );
-};
+}
 
 export default Cart;

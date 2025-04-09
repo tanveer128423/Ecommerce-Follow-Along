@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const orderSchema = new mongoose.Schema(
     {
         user: {
@@ -29,7 +28,7 @@ const orderSchema = new mongoose.Schema(
                     min: [0, 'Price cannot be negative'],
                 },
                 image: {
-                    type: String,
+                    type: Array,
                     required: true,
                 },
             },
@@ -58,7 +57,4 @@ const orderSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
-
-
-
 module.exports = mongoose.model('Order', orderSchema);

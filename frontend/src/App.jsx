@@ -1,38 +1,28 @@
-//eslint-disable-next-line
-import React from 'react';
+import React from 'react'
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
-import './index.css'
-import {Home, LoginPage } from './Routes/route.js';
-import { SignupPage } from './Routes/route.js';
-import { CreateProduct } from './Routes/route.js';
-import { MyProducts } from './Routes/route.js';
-import {Cart} from './Routes/route.js';
-import { ProductDetails } from './Routes/route.js';
-import { Profile, CreateAddress } from './Routes/route.js';
-import {SelectAddress} from './Routes/route.js';
-import {OrderConfirmation} from './Routes/route.js';
-import { MyOrdersPage } from './Routes/route.js';
+import {LoginPage,SignupPage,Home,CreateProduct, MyProducts, Cart, ProductDetails, Profile, CreateAddress, SelectAddress, OrderConfirmation, MyOrdersPage} from "./Routes";
+import "./App.css";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/login" element={<LoginPage />} />
+        <Route path='/' element={<Home/>}/>
+        <Route path='/login' element={<LoginPage/>}/>
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/create-product" element={<CreateProduct />}></Route>
-        <Route path="/products" element={<MyProducts/>}></Route>
-        <Route path='/cart' element={<Cart />} />
-        <Route path="/create-product/:id" element={<CreateProduct />}></Route>
-        <Route path="/product/:id" element={<ProductDetails />}></Route>
-        <Route path="/profile" element={<Profile/>}></Route>
-        <Route path="/create-address" element={<CreateAddress/>}></Route>
-        <Route path="/select-address" element={<SelectAddress/>}></Route>
-        <Route path="/order-confirmation" element={<OrderConfirmation/>}></Route>
-        <Route path="/myorders" element={<MyOrdersPage/>}></Route>
+        <Route path="/create-product" element={<CreateProduct />} />
+        <Route path="/create-product/:id" element={<CreateProduct />} />
+        <Route path="/my-products" element={<MyProducts />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path='/create-address' element={<CreateAddress />} />
+        <Route path="/select-address" element={<SelectAddress />} />
+        <Route path="/order-confirmation" element={<OrderConfirmation />} />
+        <Route path="/myorders" element={<MyOrdersPage />} />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
