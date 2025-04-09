@@ -146,3 +146,23 @@ Added functionality to allow users to cancel their orders.
 
 ## Milestone 29
 Integrated PayPal as a payment gateway, giving users the option to choose between Cash on Delivery (COD) and online payment via PayPal.
+
+## Milestone 30: PayPal Integration
+Integrated PayPal using react-paypal-js for secure online payments. Supports cards and PayPal accounts. Added client ID via .env and tested successfully.
+
+## Milestone 31: Redux Setup
+Set up Redux to manage global state. Created store and user reducer to handle email. Wrapped app with Provider.
+
+## Milestone 32: Email State with Redux
+Used useDispatch and useSelector to store and access user email across components. Centralized state management complete.
+
+## Milestone 33: JWT & Cookies
+Generated JWT using jsonwebtoken, stored it in cookies with maxAge for session control. Secure user login implemented.
+
+## Milestone 34: JWT Validation
+Validated JWT from cookies on backend. Protected routes from unauthorized access. Frontend redirects unauthenticated users.
+
+## Milestone 35: Deployment
+Deployed both frontend and backend. App is live with authentication and payment features.
+
+
